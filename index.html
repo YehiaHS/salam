@@ -584,20 +584,15 @@
             margin-top: 15px;
         }
 
-        /* Settings Button */
-        .settings-btn {
-            position: absolute;
-            top: var(--safe-top);
-            right: 20px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            backdrop-filter: blur(20px);
-            z-index: 100;
-            font-weight: 500;
+        /* Settings View Specific */
+        #view-settings {
+            padding-bottom: 20px;
+        }
+
+        .settings-header-tab {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
         }
 
         /* Animations */
@@ -728,16 +723,7 @@
         }
 
         .btn-close {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid var(--glass-border);
-            color: var(--text-primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
+            display: none;
         }
     </style>
 </head>
@@ -749,10 +735,6 @@
     <div id="loading">
         <div class="loader"></div>
     </div>
-
-    <button class="settings-btn" id="open-settings" onclick="toggleSettings(true)">
-        ⚙️ <span data-i18n="settings">Settings</span>
-    </button>
 
     <div class="container">
         <!-- Dashboard View -->
@@ -865,6 +847,75 @@
         <footer style="text-align: center; padding: 20px; opacity: 0.5; font-size: 0.8rem;">
             Automatic Prayer Tracker &bull; Powered by Aladhan & AlQuran
         </footer>
+
+        <!-- Settings View -->
+        <div id="view-settings" class="view-section">
+            <div class="settings-header-tab">
+                <div class="settings-title" data-i18n="settings">Settings</div>
+            </div>
+
+            <div class="settings-group">
+                <div class="settings-label" data-i18n="theme">Theme</div>
+                <div class="settings-option" id="theme-dynamic" onclick="setTheme('dynamic')">
+                    <span data-i18n="dynamic">Dynamic (Time-based)</span>
+                    <div class="check-icon">✓</div>
+                </div>
+                <div class="settings-option" id="theme-light" onclick="setTheme('light')">
+                    <span data-i18n="light">Light</span>
+                    <div class="check-icon">✓</div>
+                </div>
+                <div class="settings-option" id="theme-dark" onclick="setTheme('dark')">
+                    <span data-i18n="dark">Dark</span>
+                    <div class="check-icon">✓</div>
+                </div>
+                <div class="settings-option" id="theme-oled" onclick="setTheme('oled')">
+                    <span data-i18n="oled">OLED (Black)</span>
+                    <div class="check-icon">✓</div>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <div class="settings-label" data-i18n="language">Language</div>
+                <select id="lang-selector" class="sura-selector" onchange="setLanguage(this.value)"
+                    style="background: var(--glass-bg);">
+                    <option value="en">English</option>
+                    <option value="ar">العربية</option>
+                    <option value="fr">Français</option>
+                    <option value="id">Bahasa Indonesia</option>
+                    <option value="ur">اردو</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="es">Español</option>
+                    <option value="de">Deutsch</option>
+                    <option value="ms">Bahasa Melayu</option>
+                    <option value="fa">فارسی</option>
+                    <option value="ru">Русский</option>
+                    <option value="bn">বাংলা</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="zh">中文</option>
+                    <option value="pt">Português</option>
+                    <option value="it">Italiano</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="sw">Kiswahili</option>
+                    <option value="uz">Oʻzbekcha</option>
+                    <option value="ja">日本語</option>
+                </select>
+            </div>
+
+            <div class="settings-group">
+                <div class="settings-label" data-i18n="preferences">Preferences</div>
+                <div class="settings-option" onclick="toggleNotifications()">
+                    <span data-i18n="notifications">Notifications</span>
+                    <span id="notif-status-text">Off</span>
+                </div>
+                <div class="settings-option" onclick="useAutoLocation()">
+                    <span data-i18n="reset_location">Reset to Auto-Location</span>
+                </div>
+            </div>
+
+            <footer style="text-align: center; margin-top: 40px; opacity: 0.5;">
+                Salam v1.5 &bull; Offline Ready
+            </footer>
+        </div>
     </div>
 
     <nav class="bottom-nav">
@@ -888,77 +939,17 @@
             </svg>
             <span data-i18n="tasbih">Tasbih</span>
         </div>
+        <div class="nav-item" onclick="switchView('settings', this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path
+                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                </path>
+            </svg>
+            <span data-i18n="settings">Settings</span>
+        </div>
     </nav>
 
-    <!-- Settings Overlay -->
-    <div id="settings-overlay" class="settings-overlay">
-        <div class="settings-header">
-            <div class="settings-title" data-i18n="settings">Settings</div>
-            <div class="btn-close" onclick="toggleSettings(false)">✕</div>
-        </div>
-
-        <div class="settings-group">
-            <div class="settings-label" data-i18n="theme">Theme</div>
-            <div class="settings-option" id="theme-dynamic" onclick="setTheme('dynamic')">
-                <span data-i18n="dynamic">Dynamic (Time-based)</span>
-                <div class="check-icon">✓</div>
-            </div>
-            <div class="settings-option" id="theme-light" onclick="setTheme('light')">
-                <span data-i18n="light">Light</span>
-                <div class="check-icon">✓</div>
-            </div>
-            <div class="settings-option" id="theme-dark" onclick="setTheme('dark')">
-                <span data-i18n="dark">Dark</span>
-                <div class="check-icon">✓</div>
-            </div>
-            <div class="settings-option" id="theme-oled" onclick="setTheme('oled')">
-                <span data-i18n="oled">OLED (Black)</span>
-                <div class="check-icon">✓</div>
-            </div>
-        </div>
-
-        <div class="settings-group">
-            <div class="settings-label" data-i18n="language">Language</div>
-            <select id="lang-selector" class="sura-selector" onchange="setLanguage(this.value)"
-                style="background: var(--glass-bg);">
-                <option value="en">English</option>
-                <option value="ar">العربية</option>
-                <option value="fr">Français</option>
-                <option value="id">Bahasa Indonesia</option>
-                <option value="ur">اردو</option>
-                <option value="tr">Türkçe</option>
-                <option value="es">Español</option>
-                <option value="de">Deutsch</option>
-                <option value="ms">Bahasa Melayu</option>
-                <option value="fa">فارسی</option>
-                <option value="ru">Русский</option>
-                <option value="bn">বাংলা</option>
-                <option value="hi">हिन्दी</option>
-                <option value="zh">中文</option>
-                <option value="pt">Português</option>
-                <option value="it">Italiano</option>
-                <option value="nl">Nederlands</option>
-                <option value="sw">Kiswahili</option>
-                <option value="uz">Oʻzbekcha</option>
-                <option value="ja">日本語</option>
-            </select>
-        </div>
-
-        <div class="settings-group">
-            <div class="settings-label" data-i18n="preferences">Preferences</div>
-            <div class="settings-option" onclick="toggleNotifications()">
-                <span data-i18n="notifications">Notifications</span>
-                <span id="notif-status-text">Off</span>
-            </div>
-            <div class="settings-option" onclick="useAutoLocation()">
-                <span data-i18n="reset_location">Reset to Auto-Location</span>
-            </div>
-        </div>
-
-        <footer style="text-align: center; margin-top: 40px; opacity: 0.5;">
-            Salam v1.5 &bull; Offline Ready
-        </footer>
-    </div>
 
     <div id="location-overlay" class="location-search-overlay">
         <div class="close-search" onclick="closeLocationSearch()">✕</div>
@@ -1002,7 +993,6 @@
 
         // Initialize Tasbih
         document.getElementById('tasbih-total').innerText = tasbihCount;
-        updateNotifBtn();
 
         function switchView(viewId, navItem) {
             document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
@@ -1144,9 +1134,10 @@
         }
 
         function updateNotifBtn() {
-            const btn = document.getElementById('notif-btn');
-            btn.innerText = `Notifications: ${notificationsEnabled ? 'On' : 'Off'}`;
-            btn.style.background = notificationsEnabled ? 'rgba(74, 222, 128, 0.2)' : 'rgba(255, 255, 255, 0.15)';
+            const statusText = document.getElementById('notif-status-text');
+            if (statusText) {
+                statusText.innerText = notificationsEnabled ? 'On' : 'Off';
+            }
         }
 
         function format12h(timeStr) {
@@ -1214,6 +1205,7 @@
         async function init() {
             setTheme(currentTheme);
             applyTranslations();
+            updateNotifBtn();
             try {
                 const savedLoc = localStorage.getItem('manualLocation');
                 let coords;
