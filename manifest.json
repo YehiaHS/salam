@@ -1,0 +1,22 @@
+{
+  "name": "Salam Prayer Tracker",
+  "short_name": "Salam",
+  "description": "Premium Islamic Utility for Prayer Times, Quran, and Dhikr",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#1e3a8a",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
