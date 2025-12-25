@@ -741,7 +741,8 @@
         <div id="view-dashboard" class="view-section active">
             <header id="header">
                 <div class="location-header">
-                    <div class="location-name" id="city-name" onclick="openLocationSearch()">Detecting...</div>
+                    <div class="location-name" id="city-name" onclick="openLocationSearch()" data-i18n="detecting">
+                        Detecting...</div>
                     <div id="remote-local-time"
                         style="font-size: 0.85rem; opacity: 0.7; margin-top: -8px; margin-bottom: 8px;">--:--</div>
                     <button class="search-trigger" onclick="openLocationSearch()">
@@ -750,7 +751,7 @@
                             <circle cx="11" cy="11" r="8" />
                             <path d="m21 21-4.35-4.35" />
                         </svg>
-                        Change Location
+                        <span data-i18n="change_location">Change Location</span>
                     </button>
                 </div>
                 <div class="current-prayer" id="next-prayer-name"><span data-i18n="next">NEXT</span>: LOADING</div>
@@ -768,7 +769,7 @@
                         stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07L19.07 4.93" />
                     </svg>
-                    Real-time Qibla
+                    <span data-i18n="qibla_realtime">Real-time Qibla</span>
                 </div>
                 <div class="qibla-compass-container">
                     <div class="compass-ring">
@@ -776,9 +777,10 @@
                         <div class="compass-arrow" id="qibla-arrow"></div>
                     </div>
                     <div id="qibla-text" class="stat-value">--°</div>
-                    <div id="compass-status" class="compass-status">Align arrow to the Kaaba</div>
+                    <div id="compass-status" class="compass-status" data-i18n="qibla_align">Align arrow to the Kaaba
+                    </div>
                     <button id="compass-btn" class="permission-btn" onclick="requestCompassPermission()"
-                        style="display: none;">Enable Compass</button>
+                        style="display: none;" data-i18n="enable_compass">Enable Compass</button>
                 </div>
             </section>
 
@@ -790,7 +792,7 @@
                             <circle cx="12" cy="12" r="10" />
                             <polyline points="12 6 12 12 16 14" />
                         </svg>
-                        Sunrise
+                        <span data-i18n="sunrise">Sunrise</span>
                     </div>
                     <div class="stat-value" id="sunrise-time">--:--</div>
                 </div>
@@ -800,28 +802,30 @@
         <!-- Quran View -->
         <div id="view-quran" class="view-section">
             <header>
-                <div class="location-name">Al-Quran</div>
-                <div class="current-prayer">Holy Book of Wisdom</div>
+                <div class="location-name" data-i18n="quran">Al-Quran</div>
+                <div class="current-prayer" data-i18n="holy_book">Holy Book of Wisdom</div>
             </header>
 
             <section class="glass-card votd-card" id="votd-container">
-                <div class="stat-label">Verse of the Day</div>
+                <div class="stat-label" data-i18n="votd">Verse of the Day</div>
                 <div id="votd-content" style="margin-top: 15px;">
                     <div class="ayah-arabic" id="votd-arabic">...</div>
-                    <div class="ayah-translation" id="votd-translation" style="margin-top: 10px;">Loading daily
+                    <div class="ayah-translation" id="votd-translation" style="margin-top: 10px;"
+                        data-i18n="votd_loading">Loading daily
                         guidance...</div>
                 </div>
             </section>
 
             <div class="quran-container">
                 <select id="sura-selector" class="sura-selector" onchange="loadSura(this.value)">
-                    <option value="">Select Sura...</option>
+                    <option value="" data-i18n="select_sura">Select Sura...</option>
                 </select>
 
                 <div class="quran-controls">
-                    <button class="reader-mode-toggle" onclick="toggleReaderMode()">Toggle Light/Dark</button>
-                    <div class="stat-label">Show Transliteration <input type="checkbox" id="translit-toggle"
-                            onchange="refreshReader()"></div>
+                    <button class="reader-mode-toggle" onclick="toggleReaderMode()" data-i18n="toggle_reader">Toggle
+                        Light/Dark</button>
+                    <div class="stat-label"><span data-i18n="show_translit">Show Transliteration</span> <input
+                            type="checkbox" id="translit-toggle" onchange="refreshReader()"></div>
                 </div>
 
                 <div id="quran-reader" class="quran-reader ayah-list">
@@ -833,14 +837,14 @@
         <!-- Tasbih View -->
         <div id="view-tasbih" class="view-section">
             <header>
-                <div class="location-name">Tasbih</div>
-                <div class="current-prayer">Praise of the Almighty</div>
+                <div class="location-name" data-i18n="tasbih">Tasbih</div>
+                <div class="current-prayer" data-i18n="praise">Praise of the Almighty</div>
             </header>
             <section class="glass-card tasbih-section" onclick="incrementTasbih()">
-                <div class="stat-label">Counter</div>
+                <div class="stat-label" data-i18n="counter">Counter</div>
                 <div class="tasbih-count" id="tasbih-total">0</div>
-                <div class="current-prayer">Tap anywhere to count</div>
-                <button class="tasbih-btn" onclick="resetTasbih(event)">Reset</button>
+                <div class="current-prayer" data-i18n="tap_count">Tap anywhere to count</div>
+                <button class="tasbih-btn" onclick="resetTasbih(event)" data-i18n="reset">Reset</button>
             </section>
         </div>
 
@@ -923,14 +927,14 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
             </svg>
-            <span>Prayer</span>
+            <span data-i18n="prayer">Prayer</span>
         </div>
         <div class="nav-item" onclick="switchView('quran', this)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
                 <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
             </svg>
-            <span>Quran</span>
+            <span data-i18n="quran">Quran</span>
         </div>
         <div class="nav-item" onclick="switchView('tasbih', this)">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -953,12 +957,13 @@
 
     <div id="location-overlay" class="location-search-overlay">
         <div class="close-search" onclick="closeLocationSearch()">✕</div>
-        <button class="auto-locate-btn" onclick="useAutoLocation()">⊕ Use My Current Location</button>
+        <button class="auto-locate-btn" onclick="useAutoLocation()" data-i18n="use_auto">⊕ Use My Current
+            Location</button>
         <div class="search-input-group">
             <input type="text" id="location-input" class="location-input"
                 placeholder="Enter city name (e.g. London, Cairo)..."
                 onkeyup="if(event.key==='Enter') searchLocation()">
-            <button class="permission-btn" onclick="searchLocation()">Search</button>
+            <button class="permission-btn" onclick="searchLocation()" data-i18n="search_btn">Search</button>
         </div>
         <div id="search-results" class="search-results"></div>
     </div>
@@ -1057,7 +1062,8 @@
         async function loadSura(number) {
             if (!number) return;
             const reader = document.getElementById('quran-reader');
-            reader.innerHTML = '<div class="stat-value">Loading Sura...</div>';
+            const lang = translations[currentLang] || translations['en'];
+            reader.innerHTML = `<div class="stat-value">${lang.loading_sura || 'Loading Sura...'}</div>`;
 
             try {
                 const [arRes, enRes, trRes] = await Promise.all([
@@ -1164,26 +1170,26 @@
         }
 
         const translations = {
-            en: { prayer: "Prayer", quran: "Quran", tasbih: "Tasbih", settings: "Settings", language: "Language", theme: "Theme", light: "Light", dark: "Dark", oled: "OLED", dynamic: "Dynamic", notifications: "Notifications", preferences: "Preferences", reset_location: "Auto-Location", next: "NEXT" },
-            ar: { prayer: "الصلاة", quran: "القرآن", tasbih: "تسبيح", settings: "الإعدادات", language: "اللغة", theme: "المظهر", light: "فاتح", dark: "داكن", oled: "أسود", dynamic: "تلقائي", notifications: "التنبيهات", preferences: "التفضيلات", reset_location: "الموقع التلقائي", next: "القادم" },
-            fr: { prayer: "Prière", quran: "Coran", tasbih: "Tasbih", settings: "Paramètres", language: "Langue", theme: "Thème", light: "Clair", dark: "Sombre", oled: "Noir", notifications: "Notifications", preferences: "Préférences", reset_location: "Localisation Auto", next: "SUIVANT" },
-            id: { prayer: "Doa", quran: "Quran", tasbih: "Tasbih", settings: "Pengaturan", language: "Bahasa", theme: "Tema", light: "Terang", dark: "Gelap", oled: "Hitam", notifications: "Notifikasi", preferences: "Preferensi", reset_location: "Lokasi Otomatis", next: "BERIKUTNYA" },
-            ur: { prayer: "نماز", quran: "قرآن", tasbih: "تسبیح", settings: "ترتیبات", language: "زبان", theme: "تھیم", light: "ہلکا", dark: "اندھیرا", oled: "سیاہ", notifications: "اطلاعات", preferences: "ترجیحات", reset_location: "آٹو مقام", next: "اگلا" },
-            tr: { prayer: "Namaz", quran: "Kuran", tasbih: "Tesbih", settings: "Ayarlar", language: "Dil", theme: "Tema", light: "Açık", dark: "Koyu", oled: "Siyah", notifications: "Bildirimler", preferences: "Tercihler", reset_location: "Otomatik Konum", next: "SONRAKİ" },
-            es: { prayer: "Oración", quran: "Corán", tasbih: "Tasbih", settings: "Ajustes", language: "Idioma", theme: "Tema", light: "Claro", dark: "Oscuro", oled: "Negro", notifications: "Notificaciones", preferences: "Preferencias", reset_location: "Ubicación Auto", next: "SIGUIENTE" },
-            de: { prayer: "Gebet", quran: "Koran", tasbih: "Tasbih", settings: "Einstellungen", language: "Sprache", theme: "Thema", light: "Hell", dark: "Dunkel", oled: "Schwarz", notifications: "Benachrichtigungen", preferences: "Präferenzen", reset_location: "Auto-Standort", next: "NÄCHSTE" },
-            ms: { prayer: "Solat", quran: "Quran", tasbih: "Tasbih", settings: "Tetapan", language: "Bahasa", theme: "Tema", light: "Cerah", dark: "Gelap", oled: "Hitam", notifications: "Notifikasi", preferences: "Pilihan", reset_location: "Lokasi Auto", next: "SETERUSNYA" },
-            fa: { prayer: "نماز", quran: "قرآن", tasbih: "تسبیح", settings: "تنظیمات", language: "زبان", theme: "تم", light: "روشن", dark: "تاریک", oled: "سیاه", notifications: "اعلان‌ها", preferences: "ترجیحات", reset_location: "موقعیت خودکار", next: "بعدی" },
-            ru: { prayer: "Молитва", quran: "Коран", tasbih: "Тасбих", settings: "Настройки", language: "Язык", theme: "Тема", light: "Светлая", dark: "Темная", oled: "Черная", notifications: "Уведомления", preferences: "Настройки", reset_location: "Авто-локация", next: "СЛЕД" },
-            bn: { prayer: "নামাজ", quran: "কুরআন", tasbih: "তসবিহ", settings: "সেটিংস", language: "ভাষা", theme: "থিম", light: "হালকা", dark: "গাঢ়", oled: "কালো", notifications: "নোটিফিকেশন", preferences: "পছন্দ", reset_location: "স্বয়ংক্রিয় অবস্থান", next: "পরবর্তী" },
-            hi: { prayer: "प्रार्थना", quran: "कुरान", tasbih: "तस्बीह", settings: "सेटिंग्स", language: "भाषा", theme: "थीम", light: "हल्का", dark: "डार्क", oled: "काला", notifications: "सूचनाएं", preferences: "वरीयताएँ", reset_location: "ऑटो-लोकेशन", next: "अगला" },
-            zh: { prayer: "祷告", quran: "古兰经", tasbih: "泰斯比哈", settings: "设置", language: "语言", theme: "主题", light: "浅色", dark: "深色", oled: "黑色", notifications: "通知", preferences: "偏好", reset_location: "自动定位", next: "下一次" },
-            pt: { prayer: "Oração", quran: "Alcorão", tasbih: "Tasbih", settings: "Configurações", language: "Idioma", theme: "Tema", light: "Claro", dark: "Escuro", oled: "Preto", notifications: "Notificações", preferences: "Preferências", reset_location: "Localização Auto", next: "PRÓXIMO" },
-            it: { prayer: "Preghiera", quran: "Corano", tasbih: "Tasbih", settings: "Impostazioni", language: "Lingua", theme: "Tema", light: "Chiaro", dark: "Scuro", oled: "Nero", notifications: "Notifiche", preferences: "Preferenze", reset_location: "Posizione Auto", next: "PROSSIMO" },
-            nl: { prayer: "Gebed", quran: "Koran", tasbih: "Tasbih", settings: "Instellingen", language: "Taal", theme: "Thema", light: "Licht", dark: "Donker", oled: "Zwart", notifications: "Meldingen", preferences: "Voorkeuren", reset_location: "Auto-locatie", next: "VOLGENDE" },
-            sw: { prayer: "Sala", quran: "Kurani", tasbih: "Tasbih", settings: "Mipangilio", language: "Lugha", theme: "Mandhari", light: "Mkali", dark: "Giza", oled: "Nyeusi", notifications: "Arifa", preferences: "Mapendeleo", reset_location: "Mahali Auto", next: "IFUATAYO" },
-            uz: { prayer: "Namoz", quran: "Quron", tasbih: "Tasbih", settings: "Sozlamalar", language: "Til", theme: "Mavzu", light: "Yorug'", dark: "Qorong'u", oled: "Qora", notifications: "Bildirishnomalar", preferences: "Afzalliklar", reset_location: "Avto-joylashuv", next: "KEYINGI" },
-            ja: { prayer: "礼拝", quran: "コーラン", tasbih: "タスビh", settings: "設定", language: "言語", theme: "テーマ", light: "ライト", dark: "ダーク", oled: "ブラック", notifications: "通知", preferences: "設定", reset_location: "自動位置", next: "次" }
+            en: { prayer: "Prayer", quran: "Quran", tasbih: "Tasbih", settings: "Settings", language: "Language", theme: "Theme", light: "Light", dark: "Dark", oled: "OLED", dynamic: "Dynamic", notifications: "Notifications", preferences: "Preferences", reset_location: "Auto-Location", next: "NEXT", local_time: "Local Time", on: "On", off: "Off", detecting: "Detecting...", change_location: "Change Location", qibla_realtime: "Real-time Qibla", qibla_align: "Align arrow to the Kaaba", qibla_facing: "🕋 Facing Kaaba!", enable_compass: "Enable Compass", sunrise: "Sunrise", holy_book: "Holy Book", votd: "Verse of the Day", votd_loading: "Loading guidance...", select_sura: "Select Sura...", toggle_reader: "Toggle Mode", show_translit: "Transliteration", loading_sura: "Loading...", searching: "Searching...", praise: "Praise of Allah", counter: "Counter", tap_count: "Tap to count", reset: "Reset", use_auto: "Use Auto-Location", fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha", error_loc: "Location Error" },
+            ar: { prayer: "الصلاة", quran: "القرآن", tasbih: "تسبيح", settings: "الإعدادات", language: "اللغة", theme: "المظهر", light: "فاتح", dark: "داكن", oled: "أسود", dynamic: "تلقائي", notifications: "التنبيهات", preferences: "التفضيلات", reset_location: "الموقع التلقائي", next: "القادم", local_time: "الوقت المحلي", on: "تشغيل", off: "إيقاف", detecting: "جاري التحديد...", change_location: "تغيير الموقع", qibla_realtime: "القبلة مباشر", qibla_align: "قم بمحاذاة السهم", qibla_facing: "🕋 أنت تواجه الكعبة!", enable_compass: "تفعيل البوصلة", sunrise: "الشروق", holy_book: "كتاب الحكمة", votd: "آية اليوم", votd_loading: "جاري التحميل...", select_sura: "اختر السورة...", toggle_reader: "تغيير النمط", show_translit: "نطق الكلمات", loading_sura: "جاري التحميل...", searching: "جاري البحث...", praise: "سبحان الله", counter: "العداد", tap_count: "اضغط للعد", reset: "إعادة تعيين", use_auto: "استخدام الموقع التلقائي", fajr: "الفجر", dhuhr: "الظهر", asr: "العصر", maghrib: "المغرب", isha: "العشاء", error_loc: "خطأ في الموقع" },
+            fr: { prayer: "Prière", quran: "Coran", tasbih: "Tasbih", settings: "Paramètres", language: "Langue", theme: "Thème", light: "Clair", dark: "Sombre", oled: "Noir", notifications: "Notifications", preferences: "Préférences", reset_location: "Localisation Auto", next: "SUIVANT", local_time: "Heure locale", on: "On", off: "Off", detecting: "Détection...", change_location: "Changer lieu", qibla_realtime: "Qibla en direct", qibla_align: "Alignez la flèche", qibla_facing: "🕋 Face à la Kaaba!", enable_compass: "Activer boussole", sunrise: "Lever du soleil", holy_book: "Livre saint", votd: "Verset du jour", votd_loading: "Chargement...", select_sura: "Choisir Sourate...", toggle_reader: "Changer mode", show_translit: "Translittération", loading_sura: "Chargement...", searching: "Recherche...", praise: "Louange à Allah", counter: "Compteur", tap_count: "Appuyez pour compter", reset: "Réinitialiser", use_auto: "Localisation Auto", fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" },
+            id: { prayer: "Doa", quran: "Quran", tasbih: "Tasbih", settings: "Pengaturan", language: "Bahasa", theme: "Tema", light: "Terang", dark: "Gelap", oled: "Hitam", notifications: "Notifikasi", preferences: "Preferensi", reset_location: "Lokasi Otomatis", next: "BERIKUTNYA", local_time: "Waktu Lokal", on: "Aktif", off: "Mati", detecting: "Mendeteksi...", change_location: "Ubah Lokasi", qibla_realtime: "Qibla Real-time", qibla_align: "Sejajarkan panah", qibla_facing: "🕋 Menghadap Kaabah!", enable_compass: "Aktifkan Kompas", sunrise: "Terbit", holy_book: "Kitab Suci", votd: "Ayat Hari Ini", votd_loading: "Memuat...", select_sura: "Pilih Surah...", toggle_reader: "Ganti Mode", show_translit: "Transliterasi", loading_sura: "Memuat...", searching: "Mencari...", praise: "Pujian bagi Allah", counter: "Penghitung", tap_count: "Ketuk untuk menghitung", reset: "Reset", use_auto: "Lokasi Otomatis", fajr: "Subuh", dhuhr: "Zuhur", asr: "Asar", maghrib: "Magrib", isha: "Isya" },
+            ur: { prayer: "نماز", quran: "قرآن", tasbih: "تسبیح", settings: "ترتیبات", language: "زبان", theme: "تھیم", light: "ہلکا", dark: "اندھیرا", oled: "سیاہ", notifications: "اطلاعات", preferences: "ترجیحات", reset_location: "آٹو مقام", next: "اگلا", local_time: "مقامی وقت", on: "آن", off: "آف", detecting: "پتہ لگا رہا ہے...", change_location: "مقام تبدیل کریں", qibla_realtime: "قبلہ لائیو", qibla_align: "تیر کو سیدھا کریں", qibla_facing: "🕋 آپ کا رخ کعبہ کی طرف ہے!", enable_compass: "کمپاس فعال کریں", sunrise: "طلوع آفتاب", holy_book: "حکمت کی کتاب", votd: "آج کی آیت", votd_loading: "لوڈ ہو رہا ہے...", select_sura: "سورہ منتخب کریں...", toggle_reader: "موڈ تبدیل کریں", show_translit: "نطق", loading_sura: "لوڈ ہو رہا ہے...", searching: "تلاش کر رہا ہے...", praise: "اللہ کی تعریف", counter: "کاؤنٹر", tap_count: "گننے کے لیے دبائیں", reset: "ری سیٹ", use_auto: "خودکار مقام", fajr: "فجر", dhuhr: "ظہر", asr: "عصر", maghrib: "مغرب", isha: "عشاء" },
+            tr: { prayer: "Namaz", quran: "Kuran", tasbih: "Tesbih", settings: "Ayarlar", language: "Dil", theme: "Tema", light: "Açık", dark: "Koyu", oled: "Siyah", notifications: "Bildirimler", preferences: "Tercihler", reset_location: "Otomatik Konum", next: "SONRAKİ", local_time: "Yerel Saat", on: "Açık", off: "Kapalı", detecting: "Tespit ediliyor...", change_location: "Konumu Değiştir", qibla_realtime: "Canlı Kıble", qibla_align: "Oku hizalayın", qibla_facing: "🕋 Kabe'ye bakıyorsunuz!", enable_compass: "Pusulayı Aç", sunrise: "Gün Doğumu", holy_book: "Hikmet Kitabı", votd: "Günün Ayeti", votd_loading: "Yükleniyor...", select_sura: "Sure Seç...", toggle_reader: "Modu Değiştir", show_translit: "Transliterasyon", loading_sura: "Yükleniyor...", searching: "Aranıyor...", praise: "Allah'a hamdolsun", counter: "Sayaç", tap_count: "Saymak için dokun", reset: "Sıfırla", use_auto: "Otomatik Konum", fajr: "İmsak", dhuhr: "Öğle", asr: "İkindi", maghrib: "Akşam", isha: "Yatsı" },
+            es: { prayer: "Oración", quran: "Corán", tasbih: "Tasbih", settings: "Ajustes", language: "Idioma", theme: "Tema", light: "Claro", dark: "Oscuro", oled: "Negro", notifications: "Notificaciones", preferences: "Preferencias", reset_location: "Ubicación Auto", next: "SIGUIENTE", local_time: "Hora local", on: "On", off: "Off", detecting: "Detectando...", change_location: "Cambiar ubicación", qibla_realtime: "Qibla en vivo", qibla_align: "Alinea la flecha", qibla_facing: "🕋 ¡Frente a la Kaaba!", enable_compass: "Activar brújula", sunrise: "Amanecer", holy_book: "Libro Sagrado", votd: "Versículo del día", votd_loading: "Cargando...", select_sura: "Elegir Sura...", toggle_reader: "Cambiar modo", show_translit: "Transliteración", loading_sura: "Cargando...", searching: "Buscando...", praise: "Alabanza a Allah", counter: "Contador", tap_count: "Toca para contar", reset: "Reiniciar", use_auto: "Ubicación Auto", fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" },
+            de: { prayer: "Gebet", quran: "Koran", tasbih: "Tasbih", settings: "Einstellungen", language: "Sprache", theme: "Thema", light: "Hell", dark: "Dunkel", oled: "Schwarz", notifications: "Benachrichtigungen", preferences: "Präferenzen", reset_location: "Auto-Standort", next: "NÄCHSTE", local_time: "Ortszeit", on: "An", off: "Aus", detecting: "Erkennen...", change_location: "Standort ändern", qibla_realtime: "Echtzeit-Qibla", qibla_align: "Pfeil ausrichten", qibla_facing: "🕋 Zur Kaaba gewandt!", enable_compass: "Kompass aktivieren", sunrise: "Sonnenaufgang", holy_book: "Heiliges Buch", votd: "Vers des Tages", votd_loading: "Laden...", select_sura: "Sure wählen...", toggle_reader: "Modus umschalten", show_translit: "Transliteration", loading_sura: "Laden...", searching: "Suchen...", praise: "Lob sei Allah", counter: "Zähler", tap_count: "Zum Zählen tippen", reset: "Zurücksetzen", use_auto: "Auto-Standort", fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" },
+            ms: { prayer: "Solat", quran: "Quran", tasbih: "Tasbih", settings: "Tetapan", language: "Bahasa", theme: "Tema", light: "Cerah", dark: "Gelap", oled: "Hitam", notifications: "Notifikasi", preferences: "Pilihan", reset_location: "Lokasi Auto", next: "SETERUSNYA", local_time: "Waktu Tempatan", on: "Aktif", off: "Mati", detecting: "Mengesan...", change_location: "Tukar Lokasi", qibla_realtime: "Qibla Terus", qibla_align: "Selaraskan anak panah", qibla_facing: "🕋 Menghadap Kaabah!", enable_compass: "Aktifkan Kompas", sunrise: "Syuruk", holy_book: "Kitab Suci", votd: "Ayat Hari Ini", votd_loading: "Memuatkan...", select_sura: "Pilih Surah...", toggle_reader: "Tukar Mod", show_translit: "Transliterasi", loading_sura: "Memuatkan...", searching: "Mencari...", praise: "Pujian bagi Allah", counter: "Penghitung", tap_count: "Ketik untuk mengira", reset: "Set semula", use_auto: "Lokasi Auto", fajr: "Subuh", dhuhr: "Zohor", asr: "Asar", maghrib: "Maghrib", isha: "Isyak" },
+            fa: { prayer: "نماز", quran: "قرآن", tasbih: "تسبیح", settings: "تنظیمات", language: "زبان", theme: "تم", light: "روشن", dark: "تاریک", oled: "سیاه", notifications: "اعلان‌ها", preferences: "ترجیحات", reset_location: "موقعیت خودکار", next: "بعدی", local_time: "زمان محلی", on: "روشن", off: "خاموش", detecting: "در حال شناسایی...", change_location: "تغییر مکان", qibla_realtime: "قبله مستقیم", qibla_align: "پیکان را تراز کنید", qibla_facing: "🕋 شما رو به کعبه هستید!", enable_compass: "فعال‌سازی قطب‌نما", sunrise: "طلوع", holy_book: "کتاب حکمت", votd: "آیه امروز", votd_loading: "در حال بارگذاری...", select_sura: "انتخاب سوره...", toggle_reader: "تغییر حالت", show_translit: "آوانویسی", loading_sura: "در حال بارگذاری...", searching: "در حال جستجو...", praise: "ستایش الله", counter: "شمارنده", tap_count: "برای شمارش ضربه بزنید", reset: "بازنشانی", use_auto: "موقعیت خودکار", fajr: "فجر", dhuhr: "ظهر", asr: "عصر", maghrib: "مغرب", isha: "عشا" },
+            ru: { prayer: "Молитва", quran: "Коран", tasbih: "Тасбих", settings: "Настройки", language: "Язык", theme: "Тема", light: "Светлая", dark: "Темная", oled: "Черная", notifications: "Уведомления", preferences: "Настройки", reset_location: "Авто-локация", next: "СЛЕД", local_time: "Местное время", on: "Вкл", off: "Выкл", detecting: "Определение...", change_location: "Сменить место", qibla_realtime: "Кибла онлайн", qibla_align: "Направьте стрелку", qibla_facing: "🕋 Вы смотрите на Каабу!", enable_compass: "Включить компас", sunrise: "Восход", holy_book: "Священная Книга", votd: "Аят дня", votd_loading: "Загрузка...", select_sura: "Выбрать Суру...", toggle_reader: "Сменить режим", show_translit: "Транслитерация", loading_sura: "Загрузка...", searching: "Поиск...", praise: "Хвала Аллаху", counter: "Счетчик", tap_count: "Нажмите для счета", reset: "Сброс", use_auto: "Авто-локация", fajr: "Фаджр", dhuhr: "Зухр", asr: "Аср", maghrib: "Магриб", isha: "Иша" },
+            bn: { prayer: "নামাজ", quran: "কুরআন", tasbih: "তসবিহ", settings: "সেটিংস", language: "ভাষা", theme: "থিম", light: "হালকা", dark: "গাঢ়", oled: "কালো", notifications: "নোটিফিকেশন", preferences: "পছন্দ", reset_location: "স্বয়ংক্রিয় অবস্থান", next: "পরবর্তী", local_time: "স্থানীয় সময়", on: "চালু", off: "বন্ধ", detecting: "সনাক্ত করা হচ্ছে...", change_location: "অবস্থান পরিবর্তন", qibla_realtime: "কিবা লাইভ", qibla_align: "তীরটি সোজা করুন", qibla_facing: "🕋 আপনি কাবার দিকে মুখ করে আছেন!", enable_compass: "কম্পাস চালু করুন", sunrise: "সূর্যোদয়", holy_book: "প্রজ্ঞার বই", votd: "আজকের আয়াত", votd_loading: "লোড হচ্ছে...", select_sura: "সূরা নির্বাচন করুন...", toggle_reader: "মোড পরিবর্তন", show_translit: "উচ্চারণ", loading_sura: "লোড হচ্ছে...", searching: "খোঁজা হচ্ছে...", praise: "আল্লাহর প্রশংসা", counter: "কাউন্টার", tap_count: "গণনা করতে চাপুন", reset: "রিসেট", use_auto: "স্বয়ংক্রিয় অবস্থান", fajr: "ফজর", dhuhr: "যোহর", asr: "আসর", maghrib: "মাগরিব", isha: "এশা" },
+            hi: { prayer: "प्रार्थना", quran: "कुरान", tasbih: "तस्बीह", settings: "सेटिंग्स", language: "भाषा", theme: "थीम", light: "हल्का", dark: "डार्क", oled: "काला", notifications: "सूचनाएं", preferences: "वरीयताएँ", reset_location: "ऑटो-लोकेशन", next: "अगला", local_time: "स्थानीय समय", on: "चालू", off: "बंद", detecting: "अनुरोध...", change_location: "स्थान बदलें", qibla_realtime: "किबला लाइव", qibla_align: "तीर संरेखित करें", qibla_facing: "🕋 आपका मुख काबा की ओर है!", enable_compass: "कम्पास सक्षम करें", sunrise: "सूर्योदय", holy_book: "ज्ञान की पुस्तक", votd: "आज की आयत", votd_loading: "लोहेड हो रहा है...", select_sura: "सूरा चुनें...", toggle_reader: "मोड बदलें", show_translit: "लिप्यंतरण", loading_sura: "लोड हो रहा है...", searching: "खोज रहा है...", praise: "अल्लाह की प्रशंसा", counter: "काउंटर", tap_count: "गिनने के लिए टैप करें", reset: "रीसेट", use_auto: "ऑटो-लोकेशन", fajr: "फज्र", dhuhr: "धुह्र", asr: "अस्र", maghrib: "मग़रिब", isha: "ईशा" },
+            zh: { prayer: "祷告", quran: "古兰经", tasbih: "泰斯比哈", settings: "设置", language: "语言", theme: "主题", light: "浅色", dark: "深色", oled: "黑色", notifications: "通知", preferences: "偏好", reset_location: "自动定位", next: "下一次", local_time: "当地时间", on: "开启", off: "关闭", detecting: "检测中...", change_location: "更改位置", qibla_realtime: "实时朝向", qibla_align: "对齐箭头", qibla_facing: "🕋 面对克尔白！", enable_compass: "启用罗盘", sunrise: "日出", holy_book: "智慧之书", votd: "今日经文", votd_loading: "加载中...", select_sura: "选择苏拉...", toggle_reader: "切换模式", show_translit: "音译", loading_sura: "加载中...", searching: "搜索中...", praise: "赞美真主", counter: "计数器", tap_count: "点击计数", reset: "重置", use_auto: "自动定位", fajr: "晨礼", dhuhr: "晌礼", asr: "晡礼", maghrib: "昏礼", isha: "宵礼" },
+            pt: { prayer: "Oração", quran: "Alcorão", tasbih: "Tasbih", settings: "Configurações", language: "Idioma", theme: "Tema", light: "Claro", dark: "Escuro", oled: "Preto", notifications: "Notificações", preferences: "Preferências", reset_location: "Localização Auto", next: "PRÓXIMO", local_time: "Hora local", on: "Ligado", off: "Desligado", detecting: "Detetando...", change_location: "Mudar local", qibla_realtime: "Qibla ao vivo", qibla_align: "Alinhe a seta", qibla_facing: "🕋 De frente para a Kaaba!", enable_compass: "Ativar bússola", sunrise: "Nascer do sol", holy_book: "Livro Sagrado", votd: "Versículo do dia", votd_loading: "A carregar...", select_sura: "Escolher Sura...", toggle_reader: "Mudar modo", show_translit: "Transliteração", loading_sura: "A carregar...", searching: "A procurar...", praise: "Louvado seja Allah", counter: "Contador", tap_count: "Toque para contar", reset: "Reiniciar", use_auto: "Localização Auto", fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" },
+            it: { prayer: "Preghiera", quran: "Corano", tasbih: "Tasbih", settings: "Impostazioni", language: "Lingua", theme: "Tema", light: "Chiaro", dark: "Scuro", oled: "Nero", notifications: "Notifiche", preferences: "Preferenze", reset_location: "Posizione Auto", next: "PROSSIMO", local_time: "Ora locale", on: "On", off: "Off", detecting: "Rilevamento...", change_location: "Cambia luogo", qibla_realtime: "Qibla live", qibla_align: "Allinea la freccia", qibla_facing: "🕋 Di fronte alla Kaaba!", enable_compass: "Attiva bussola", sunrise: "Alba", holy_book: "Libro Sacro", votd: "Versetto del giorno", votd_loading: "Caricamento...", select_sura: "Scegli Sura...", toggle_reader: "Cambia modalità", show_translit: "Traslitterazione", loading_sura: "Caricamento...", searching: "Ricerca...", praise: "Gloria a Allah", counter: "Contatore", tap_count: "Tocca per contare", reset: "Reset", use_auto: "Posizione Auto", fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" },
+            nl: { prayer: "Gebed", quran: "Koran", tasbih: "Tasbih", settings: "Instellingen", language: "Taal", theme: "Thema", light: "Licht", dark: "Donker", oled: "Zwart", notifications: "Meldingen", preferences: "Voorkeuren", reset_location: "Auto-locatie", next: "VOLGENDE", local_time: "Lokale tijd", on: "Aan", off: "Uit", detecting: "Detecteren...", change_location: "Wijzig locatie", qibla_realtime: "Live Qibla", qibla_align: "Lijn de pijl uit", qibla_facing: "🕋 Naar de Kaaba gekeerd!", enable_compass: "Kompas activeren", sunrise: "Zonsopgang", holy_book: "Heilig Boek", votd: "Vers van de dag", votd_loading: "Laden...", select_sura: "Kies Soera...", toggle_reader: "Wissel modus", show_translit: "Transliteratie", loading_sura: "Laden...", searching: "Zoeken...", praise: "Lof zij Allah", counter: "Teller", tap_count: "Tik om te tellen", reset: "Reset", use_auto: "Auto-locatie", fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" },
+            sw: { prayer: "Sala", quran: "Kurani", tasbih: "Tasbih", settings: "Mipangilio", language: "Lugha", theme: "Mandhari", light: "Mkali", dark: "Giza", oled: "Nyeusi", notifications: "Arifa", preferences: "Mapendeleo", reset_location: "Mahali Auto", next: "IFUATAYO", local_time: "Saa za mtaa", on: "On", off: "Off", detecting: "Kugundua...", change_location: "Badilisha Mahali", qibla_realtime: "Qibla Moja kwa Moja", qibla_align: "Sawazisha mshale", qibla_facing: "🕋 Unaelekea Kaaba!", enable_compass: "Washa Kompasi", sunrise: "Kuchomoza jua", holy_book: "Kitabu cha Hekima", votd: "Aya ya Siku", votd_loading: "Inapakia...", select_sura: "Chagua Surah...", toggle_reader: "Badili Mode", show_translit: "Kutamka", loading_sura: "Inapakia...", searching: "Inatafuta...", praise: "Sifa kwa Allah", counter: "Kikokotoo", tap_count: "Gusa ili kuhesabu", reset: "Weka upya", use_auto: "Mahali Auto", fajr: "Fajr", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha" },
+            uz: { prayer: "Namoz", quran: "Quron", tasbih: "Tasbih", settings: "Sozlamalar", language: "Til", theme: "Mavzu", light: "Yorug'", dark: "Qorong'u", oled: "Qora", notifications: "Bildirishnomalar", preferences: "Afzalliklar", reset_location: "Avto-joylashuv", next: "KEYINGI", local_time: "Mahalliy vaqt", on: "Yoniq", off: "O'chiq", detecting: "Aniqlanmoqda...", change_location: "Joyni o'zgartirish", qibla_realtime: "Jonli Qibla", qibla_align: "O'qni to'g'rilang", qibla_facing: "🕋 Ka'baga yuzlandingiz!", enable_compass: "Kompasni yoqish", sunrise: "Quyosh chiqishi", holy_book: "Hikmat kitobi", votd: "Kun oyati", votd_loading: "Yuklanmoqda...", select_sura: "Surani tanlang...", toggle_reader: "Rejimni o'zgartirish", show_translit: "Transliteratsiya", loading_sura: "Yuklanmoqda...", searching: "Qidirilmoqda...", praise: "Allohga hamd bo'lsin", counter: "Hisoblagich", tap_count: "Hisoblash uchun bosing", reset: "Tiklash", use_auto: "Avto-joylashuv", fajr: "Bomdod", dhuhr: "Peshin", asr: "Asr", maghrib: "Shom", isha: "Xufton" },
+            ja: { prayer: "礼拝", quran: "コーラン", tasbih: "タスビh", settings: "設定", language: "言語", theme: "テーマ", light: "ライト", dark: "ダーク", oled: "ブラック", notifications: "通知", preferences: "設定", reset_location: "自動位置", next: "次", local_time: "現地時間", on: "オン", off: "オフ", detecting: "検出中...", change_location: "場所を変更", qibla_realtime: "リアルタイムキブラ", qibla_align: "矢印を合わせる", qibla_facing: "🕋 カアバに面しています！", enable_compass: "コンパスを有効にする", sunrise: "日の出", holy_book: "知恵の書", votd: "今日の節", votd_loading: "読み込み中...", select_sura: "スーラを選択...", toggle_reader: "モード切り替え", show_translit: "翻字", loading_sura: "読み込み中...", searching: "検索中...", praise: "アッラーに称賛を", counter: "カウンター", tap_count: "タップしてカウント", reset: "リセット", use_auto: "自動位置", fajr: "ファジル", dhuhr: "ズフル", asr: "アスル", maghrib: "マグリブ", isha: "イシャー" }
         };
 
         function applyTranslations() {
@@ -1257,7 +1263,10 @@
             } catch (error) {
                 console.error("Init Error:", error);
                 const cityEl = document.getElementById('city-name');
-                if (cityEl) cityEl.innerText = "Location Error";
+                if (cityEl) {
+                    const lang = translations[currentLang] || translations['en'];
+                    cityEl.innerText = lang.error_loc || "Location Error";
+                }
             } finally {
                 const loader = document.getElementById('loading');
                 if (loader) {
@@ -1290,7 +1299,8 @@
             if (query.length < 3) return;
 
             const resultsDiv = document.getElementById('search-results');
-            resultsDiv.innerHTML = '<div class="stat-value" style="font-size: 1rem; text-align: center;">Searching...</div>';
+            const lang = translations[currentLang] || translations['en'];
+            resultsDiv.innerHTML = `<div class="stat-value" style="font-size: 1rem; text-align: center;">${lang.searching || 'Searching...'}</div>`;
 
             try {
                 const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`);
@@ -1339,7 +1349,8 @@
                 const city = data.address.city || data.address.town || data.address.suburb || "Current Location";
                 document.getElementById('city-name').innerText = city;
             } catch (e) {
-                document.getElementById('city-name').innerText = "My Location";
+                const lang = translations[currentLang] || translations['en'];
+                document.getElementById('city-name').innerText = lang.detecting || "My Location";
             }
         }
 
@@ -1361,11 +1372,12 @@
                 const arrowRotation = qiblaAngle - heading;
                 document.getElementById('qibla-arrow').style.transform = `rotate(${arrowRotation}deg)`;
 
+                const lang = translations[currentLang] || translations['en'];
                 if (Math.abs(arrowRotation % 360) < 5) {
-                    document.getElementById('compass-status').innerText = "🕋 You are facing the Kaaba!";
+                    document.getElementById('compass-status').innerText = lang.qibla_facing || "🕋 Facing Kaaba!";
                     document.getElementById('compass-status').style.color = "#4ade80";
                 } else {
-                    document.getElementById('compass-status').innerText = "Align arrow to the Kaaba";
+                    document.getElementById('compass-status').innerText = lang.qibla_align || "Align arrow to the Kaaba";
                     document.getElementById('compass-status').style.color = "var(--text-secondary)";
                 }
             }
@@ -1390,15 +1402,19 @@
             list.innerHTML = '';
 
             const timings = data.timings;
-            document.getElementById('hijri-date').innerText = `${data.date.hijri.day} ${data.date.hijri.month.en} ${data.date.hijri.year}`;
+            const isRTL = (currentLang === 'ar' || currentLang === 'ur' || currentLang === 'fa');
+            const hijriMonth = isRTL ? data.date.hijri.month.ar : data.date.hijri.month.en;
+            document.getElementById('hijri-date').innerText = `${data.date.hijri.day} ${hijriMonth} ${data.date.hijri.year}`;
             document.getElementById('sunrise-time').innerText = format12h(timings.Sunrise);
 
+            const lang = translations[currentLang] || translations['en'];
             prayerOrder.forEach(name => {
                 const div = document.createElement('div');
                 div.className = 'prayer-item';
                 div.id = `prayer-${name}`;
+                const localizedName = lang[name.toLowerCase()] || name;
                 div.innerHTML = `
-                    <span>${name}</span>
+                    <span>${localizedName}</span>
                     <span>${format12h(timings[name])}</span>
                 `;
                 list.appendChild(div);
@@ -1476,8 +1492,9 @@
             const m = Math.floor((diff % 3600) / 60);
             const s = Math.floor(diff % 60);
 
+            const localizedNextName = lang[nextPrayerName.toLowerCase()] || nextPrayerName;
             document.getElementById('countdown').innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-            document.getElementById('next-prayer-name').innerHTML = `<span data-i18n="next">${nextLabel}</span>: ${nextPrayerName}`;
+            document.getElementById('next-prayer-name').innerHTML = `<span data-i18n="next">${nextLabel}</span>: ${localizedNextName}`;
 
             updateActivePrayer(currentTime);
         }
