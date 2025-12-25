@@ -653,8 +653,28 @@
     </nav>
 
     <script>
+        let prayerTimings = {};
+        let nextPrayerTime = null;
+        let nextPrayerName = "";
+        let tasbihCount = localStorage.getItem('tasbihCount') || 0;
+        let notificationsEnabled = localStorage.getItem('notificationsEnabled') === 'true';
+        let qiblaAngle = 0;
         let currentSura = null;
         let readerDarkMode = true;
+
+        const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+        const gradients = {
+            'Fajr': 'linear-gradient(180deg, #0a1128 0%, #1e3a8a 100%)',
+            'Sunrise': 'linear-gradient(180deg, #1e3a8a 0%, #7dd3fc 100%)',
+            'Dhuhr': 'linear-gradient(180deg, #3b82f6 0%, #60a5fa 100%)',
+            'Asr': 'linear-gradient(180deg, #60a5fa 0%, #fbbf24 100%)',
+            'Maghrib': 'linear-gradient(180deg, #fb923c 0%, #4c1d95 100%)',
+            'Isha': 'linear-gradient(180deg, #1e1b4b 0%, #000000 100%)'
+        };
+
+        // Initialize Tasbih
+        document.getElementById('tasbih-total').innerText = tasbihCount;
+        updateNotifBtn();
 
         function switchView(viewId, navItem) {
             document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
@@ -750,6 +770,234 @@
             } else {
                 reader.classList.add('light-mode');
             }
+        }
+
+        function incrementTasbih() {
+            tasbihCount++;
+            const totalEl = document.getElementById('tasbih-total');
+            totalEl.innerText = tasbihCount;
+
+            // Visual feedback
+            totalEl.style.transform = 'scale(1.1)';
+            totalEl.style.transition = 'transform 0.1s ease';
+            setTimeout(() => {
+                totalEl.style.transform = 'scale(1)';
+            }, 100);
+
+            localStorage.setItem('tasbihCount', tasbihCount);
+
+            // Enhanced Haptics
+            if (window.navigator.vibrate) {
+                window.navigator.vibrate([20, 10, 20]);
+            }
+        }
+
+        function resetTasbih(e) {
+            e.stopPropagation();
+            tasbihCount = 0;
+            document.getElementById('tasbih-total').innerText = tasbihCount;
+            localStorage.setItem('tasbihCount', tasbihCount);
+        }
+
+        async function toggleNotifications() {
+            if (!notificationsEnabled) {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    notificationsEnabled = true;
+                } else {
+                    alert("Please enable notifications in your browser settings.");
+                    return;
+                }
+            } else {
+                notificationsEnabled = false;
+            }
+            localStorage.setItem('notificationsEnabled', notificationsEnabled);
+            updateNotifBtn();
+        }
+
+        function updateNotifBtn() {
+            const btn = document.getElementById('notif-btn');
+            btn.innerText = `Notifications: ${notificationsEnabled ? 'On' : 'Off'}`;
+            btn.style.background = notificationsEnabled ? 'rgba(74, 222, 128, 0.2)' : 'rgba(255, 255, 255, 0.15)';
+        }
+
+        function format12h(timeStr) {
+            if (!timeStr) return "--:--";
+            let [h, m] = timeStr.split(':').map(Number);
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12 || 12;
+            return `${h}:${m.toString().padStart(2, '0')} ${ampm}`;
+        }
+
+        async function init() {
+            try {
+                const position = await getPosition();
+                const { latitude, longitude } = position.coords;
+
+                fetchCityName(latitude, longitude);
+                calculateQibla(latitude, longitude);
+
+                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    document.getElementById('compass-btn').style.display = 'block';
+                } else {
+                    window.addEventListener('deviceorientation', handleOrientation, true);
+                }
+
+                const response = await fetch(`https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=2`);
+                const data = await response.json();
+
+                prayerTimings = data.data.timings;
+                updateUI(data.data);
+                startCountdown();
+
+                document.getElementById('loading').style.opacity = '0';
+                setTimeout(() => document.getElementById('loading').style.display = 'none', 500);
+            } catch (error) {
+                console.error(error);
+                document.getElementById('city-name').innerText = "Location Error";
+            }
+        }
+
+        function getPosition() {
+            return new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject);
+            });
+        }
+
+        async function fetchCityName(lat, lon) {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+                const data = await response.json();
+                const city = data.address.city || data.address.town || data.address.suburb || "Current Location";
+                document.getElementById('city-name').innerText = city;
+            } catch (e) {
+                document.getElementById('city-name').innerText = "My Location";
+            }
+        }
+
+        function calculateQibla(lat, lon) {
+            const meccaLat = 21.4225 * Math.PI / 180;
+            const meccaLon = 39.8262 * Math.PI / 180;
+            const phi = lat * Math.PI / 180;
+            const lambda = lon * Math.PI / 180;
+
+            const q = Math.atan2(Math.sin(meccaLon - lambda), Math.cos(phi) * Math.tan(meccaLat) - Math.sin(phi) * Math.cos(meccaLon - lambda));
+            qiblaAngle = (q * 180 / Math.PI + 360) % 360;
+            document.getElementById('qibla-text').innerText = `${Math.round(qiblaAngle)}°`;
+            document.getElementById('qibla-arrow').style.transform = `rotate(${qiblaAngle}deg)`;
+        }
+
+        function handleOrientation(event) {
+            let heading = event.webkitCompassHeading || event.alpha;
+            if (typeof heading !== 'undefined' && heading !== null) {
+                const arrowRotation = qiblaAngle - heading;
+                document.getElementById('qibla-arrow').style.transform = `rotate(${arrowRotation}deg)`;
+
+                if (Math.abs(arrowRotation % 360) < 5) {
+                    document.getElementById('compass-status').innerText = "🕋 You are facing the Kaaba!";
+                    document.getElementById('compass-status').style.color = "#4ade80";
+                } else {
+                    document.getElementById('compass-status').innerText = "Align arrow to the Kaaba";
+                    document.getElementById('compass-status').style.color = "var(--text-secondary)";
+                }
+            }
+        }
+
+        async function requestCompassPermission() {
+            if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+                try {
+                    const permission = await DeviceOrientationEvent.requestPermission();
+                    if (permission === 'granted') {
+                        window.addEventListener('deviceorientation', handleOrientation, true);
+                        document.getElementById('compass-btn').style.display = 'none';
+                    }
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        }
+
+        function updateUI(data) {
+            const list = document.getElementById('prayer-list');
+            list.innerHTML = '';
+
+            const timings = data.timings;
+            document.getElementById('hijri-date').innerText = `${data.date.hijri.day} ${data.date.hijri.month.en} ${data.date.hijri.year}`;
+            document.getElementById('sunrise-time').innerText = format12h(timings.Sunrise);
+            document.getElementById('fajr-ends').innerText = format12h(timings.Sunrise);
+
+            prayerOrder.forEach(name => {
+                const div = document.createElement('div');
+                div.className = 'prayer-item';
+                div.id = `prayer-${name}`;
+                div.innerHTML = `
+                    <span>${name}</span>
+                    <span>${format12h(timings[name])}</span>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function startCountdown() {
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const currentTime = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+
+            let found = false;
+            for (let name of prayerOrder) {
+                const [hrs, mins] = prayerTimings[name].split(':').map(Number);
+                const prayerSeconds = hrs * 3600 + mins * 60;
+
+                if (notificationsEnabled && prayerSeconds === currentTime) {
+                    new Notification("Prayer Time", {
+                        body: `It's time for ${name} prayer in ${document.getElementById('city-name').innerText}`,
+                        icon: 'icon.png'
+                    });
+                }
+
+                if (prayerSeconds > currentTime) {
+                    nextPrayerTime = prayerSeconds;
+                    nextPrayerName = name;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                const [hrs, mins] = prayerTimings['Fajr'].split(':').map(Number);
+                nextPrayerTime = hrs * 3600 + mins * 60 + 86400;
+                nextPrayerName = 'Fajr';
+            }
+
+            const diff = nextPrayerTime - currentTime;
+            const h = Math.floor(diff / 3600);
+            const m = Math.floor((diff % 3600) / 60);
+            const s = Math.floor(diff % 60);
+
+            document.getElementById('countdown').innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            document.getElementById('next-prayer-name').innerText = `NEXT: ${nextPrayerName}`;
+
+            updateActivePrayer(currentTime);
+        }
+
+        function updateActivePrayer(nowSecs) {
+            let active = 'Isha';
+            for (let name of prayerOrder) {
+                const [h, m] = prayerTimings[name].split(':').map(Number);
+                if (nowSecs >= (h * 3600 + m * 60)) {
+                    active = name;
+                }
+            }
+
+            document.querySelectorAll('.prayer-item').forEach(el => el.classList.remove('active'));
+            const activeEl = document.getElementById(`prayer-${active}`);
+            if (activeEl) activeEl.classList.add('active');
+
+            document.body.style.background = gradients[active] || gradients['Isha'];
         }
 
         init();
