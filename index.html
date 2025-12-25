@@ -13,17 +13,17 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-gradient: linear-gradient(180deg, #1e3a8a 0%, #3b82f6 100%);
-            --glass-bg: rgba(255, 255, 255, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.18);
             --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-secondary: rgba(255, 255, 255, 0.65);
             --accent: #fbbf24;
-            --safe-top: env(safe-area-inset-top, 20px);
-            --safe-bottom: env(safe-area-inset-bottom, 20px);
+            --safe-top: env(safe-area-inset-top, 30px);
+            --safe-bottom: env(safe-area-inset-bottom, 30px);
         }
 
         * {
@@ -34,88 +34,132 @@
         }
 
         body {
-            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
             background: var(--bg-gradient);
             background-attachment: fixed;
             color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
-            transition: background 1s ease;
+            transition: background 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Animated Background Flair */
+        .bg-flair {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .beam {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+            top: -25%;
+            left: -25%;
+            animation: drift 20s infinite alternate cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translate(-5%, -5%) scale(1);
+            }
+
+            100% {
+                transform: translate(5%, 5%) scale(1.1);
+            }
         }
 
         .container {
-            padding: calc(var(--safe-top) + 20px) 20px var(--safe-bottom);
+            padding: var(--safe-top) 20px var(--safe-bottom);
             max-width: 500px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
         /* Header Section */
         header {
             text-align: center;
-            margin-bottom: 20px;
+            padding-top: 40px;
+            padding-bottom: 20px;
         }
 
         .location-name {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 300;
             margin-bottom: 4px;
+            letter-spacing: -0.5px;
         }
 
         .current-prayer {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 0.95rem;
+            font-weight: 400;
+            opacity: 0.8;
+            letter-spacing: 0.5px;
         }
 
         .countdown {
-            font-size: 4.5rem;
-            font-weight: 300;
-            margin: 10px 0;
+            font-size: 6rem;
+            font-weight: 100;
+            margin: 0px 0;
             line-height: 1;
+            letter-spacing: -2px;
+            font-variant-numeric: tabular-nums;
         }
 
         .next-prayer-info {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 400;
+            margin-top: 8px;
         }
 
         /* Glass Cards */
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1.5px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 16px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
         }
 
-        /* Prayer Times List */
+        /* Prayer List */
         .prayer-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-            background: var(--glass-border);
-            border-radius: 20px;
-            overflow: hidden;
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 8px 0;
         }
 
         .prayer-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 20px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            padding: 14px 24px;
+            position: relative;
+        }
+
+        .prayer-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 24px;
+            right: 24px;
+            height: 0.5px;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .prayer-item.active {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .prayer-item span:first-child {
@@ -133,56 +177,56 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 24px;
+            padding: 10px 0 0;
             gap: 16px;
         }
 
         .compass-ring {
-            width: 150px;
-            height: 150px;
-            border: 2px solid var(--glass-border);
+            width: 140px;
+            height: 140px;
+            border: 1.5px solid var(--glass-border);
             border-radius: 50%;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.03);
         }
 
         .compass-arrow {
             width: 0;
             height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 40px solid var(--accent);
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 35px solid var(--accent);
             position: absolute;
             top: 20px;
-            filter: drop-shadow(0 0 10px var(--accent));
-            transition: transform 0.1s ease-out;
-            transform-origin: center 55px;
+            filter: drop-shadow(0 0 12px var(--accent));
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: center 50px;
         }
 
         .kaaba-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             z-index: 2;
         }
 
         .compass-status {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            text-align: center;
+            font-weight: 400;
         }
 
         .permission-btn {
-            background: var(--accent);
+            background: rgba(255, 255, 255, 0.9);
             color: #000;
             border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
+            padding: 12px 24px;
+            border-radius: 24px;
             font-weight: 600;
             font-size: 0.9rem;
             cursor: pointer;
-            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         /* Stats Grid */
@@ -195,11 +239,12 @@
         .stat-card {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .stat-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 500;
             color: var(--text-secondary);
             text-transform: uppercase;
             display: flex;
@@ -208,35 +253,38 @@
         }
 
         .stat-value {
-            font-size: 1.4rem;
-            font-weight: 400;
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: -0.5px;
         }
 
         /* Tasbih Feature */
         .tasbih-section {
             text-align: center;
             cursor: pointer;
-            user-select: none;
-            padding: 30px 20px;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
         }
 
         .tasbih-count {
-            font-size: 3rem;
-            font-weight: 600;
-            margin: 10px 0;
+            font-size: 4rem;
+            font-weight: 300;
+            margin: 8px 0;
+            letter-spacing: -1px;
         }
 
         .tasbih-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
             color: white;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            margin-top: 10px;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 15px;
         }
 
-        /* Notification Toggle */
+        /* Settings Button */
         .settings-btn {
             position: absolute;
             top: var(--safe-top);
@@ -244,18 +292,19 @@
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             color: white;
-            padding: 8px 12px;
+            padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.8rem;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             z-index: 100;
+            font-weight: 500;
         }
 
         /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(15px);
             }
 
             to {
@@ -265,7 +314,7 @@
         }
 
         .container>* {
-            animation: fadeIn 0.8s ease forwards;
+            animation: fadeIn 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
         }
 
         /* Loading Overlay */
@@ -280,31 +329,24 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            transition: opacity 0.5s ease;
+            transition: opacity 1s ease;
         }
 
         .loader {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #fff;
-            border-bottom-color: transparent;
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-bottom-color: #fff;
             border-radius: 50%;
-            animation: rotation 1s linear infinite;
-        }
-
-        @keyframes rotation {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+            animation: rotation 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
         }
     </style>
 </head>
 
 <body>
+    <div class="bg-flair">
+        <div class="beam"></div>
+    </div>
     <div id="loading">
         <div class="loader"></div>
     </div>
