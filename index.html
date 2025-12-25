@@ -49,6 +49,16 @@
             --nav-bg: rgba(0, 0, 0, 0.9);
         }
 
+        [data-theme="dynamic"] {
+            /* Inherits shared dark/glass styles, background set by JS */
+            --glass-bg: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.65);
+            --accent: #fbbf24;
+            --nav-bg: rgba(0, 0, 0, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -889,6 +899,10 @@
 
         <div class="settings-group">
             <div class="settings-label" data-i18n="theme">Theme</div>
+            <div class="settings-option" id="theme-dynamic" onclick="setTheme('dynamic')">
+                <span data-i18n="dynamic">Dynamic (Time-based)</span>
+                <div class="check-icon">✓</div>
+            </div>
             <div class="settings-option" id="theme-light" onclick="setTheme('light')">
                 <span data-i18n="light">Light</span>
                 <div class="check-icon">✓</div>
@@ -971,7 +985,7 @@
         let tasbihCount = localStorage.getItem('tasbihCount') || 0;
         let notificationsEnabled = localStorage.getItem('notificationsEnabled') === 'true';
         let currentLang = localStorage.getItem('language') || 'en';
-        let currentTheme = localStorage.getItem('theme') || 'dark';
+        let currentTheme = localStorage.getItem('theme') || 'dynamic';
         let qiblaAngle = 0;
         let currentSura = null;
         let readerDarkMode = true;
@@ -1144,8 +1158,8 @@
         }
 
         const translations = {
-            en: { prayer: "Prayer", quran: "Quran", tasbih: "Tasbih", settings: "Settings", language: "Language", theme: "Theme", light: "Light", dark: "Dark", oled: "OLED", notifications: "Notifications", preferences: "Preferences", reset_location: "Auto-Location", next: "NEXT" },
-            ar: { prayer: "الصلاة", quran: "القرآن", tasbih: "تسبيح", settings: "الإعدادات", language: "اللغة", theme: "المظهر", light: "فاتح", dark: "داكن", oled: "أسود", notifications: "التنبيهات", preferences: "التفضيلات", reset_location: "الموقع التلقائي", next: "القادم" },
+            en: { prayer: "Prayer", quran: "Quran", tasbih: "Tasbih", settings: "Settings", language: "Language", theme: "Theme", light: "Light", dark: "Dark", oled: "OLED", dynamic: "Dynamic", notifications: "Notifications", preferences: "Preferences", reset_location: "Auto-Location", next: "NEXT" },
+            ar: { prayer: "الصلاة", quran: "القرآن", tasbih: "تسبيح", settings: "الإعدادات", language: "اللغة", theme: "المظهر", light: "فاتح", dark: "داكن", oled: "أسود", dynamic: "تلقائي", notifications: "التنبيهات", preferences: "التفضيلات", reset_location: "الموقع التلقائي", next: "القادم" },
             fr: { prayer: "Prière", quran: "Coran", tasbih: "Tasbih", settings: "Paramètres", language: "Langue", theme: "Thème", light: "Clair", dark: "Sombre", oled: "Noir", notifications: "Notifications", preferences: "Préférences", reset_location: "Localisation Auto", next: "SUIVANT" },
             id: { prayer: "Doa", quran: "Quran", tasbih: "Tasbih", settings: "Pengaturan", language: "Bahasa", theme: "Tema", light: "Terang", dark: "Gelap", oled: "Hitam", notifications: "Notifikasi", preferences: "Preferensi", reset_location: "Lokasi Otomatis", next: "BERIKUTNYA" },
             ur: { prayer: "نماز", quran: "قرآن", tasbih: "تسبیح", settings: "ترتیبات", language: "زبان", theme: "تھیم", light: "ہلکا", dark: "اندھیرا", oled: "سیاہ", notifications: "اطلاعات", preferences: "ترجیحات", reset_location: "آٹو مقام", next: "اگلا" },
@@ -1456,7 +1470,11 @@
             const activeEl = document.getElementById(`prayer-${active}`);
             if (activeEl) activeEl.classList.add('active');
 
-            document.body.style.background = gradients[active] || gradients['Isha'];
+            if (currentTheme === 'dynamic') {
+                document.documentElement.style.setProperty('--bg-gradient', gradients[active] || gradients['Isha']);
+            } else {
+                document.documentElement.style.removeProperty('--bg-gradient');
+            }
         }
 
         init();
