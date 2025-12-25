@@ -411,9 +411,23 @@
 
         function incrementTasbih() {
             tasbihCount++;
-            document.getElementById('tasbih-total').innerText = tasbihCount;
+            const totalEl = document.getElementById('tasbih-total');
+            totalEl.innerText = tasbihCount;
+
+            // Visual feedback
+            totalEl.style.transform = 'scale(1.1)';
+            totalEl.style.transition = 'transform 0.1s ease';
+            setTimeout(() => {
+                totalEl.style.transform = 'scale(1)';
+            }, 100);
+
             localStorage.setItem('tasbihCount', tasbihCount);
-            if (window.navigator.vibrate) window.navigator.vibrate(50);
+
+            // Enhanced Haptics
+            if (window.navigator.vibrate) {
+                // Try a double pulse for a more mechanical feel
+                window.navigator.vibrate([20, 10, 20]);
+            }
         }
 
         function resetTasbih(e) {
